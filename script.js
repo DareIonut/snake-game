@@ -1,6 +1,10 @@
 class SnakeGame {
-  constructor() {
+  constructor(command) {
     this.canvas = document.querySelector("canvas");
+    this.buttonUp = document.querySelector(".up");
+    this.buttonDown = document.querySelector(".down");
+    this.buttonLeft = document.querySelector(".left");
+    this.buttonRight = document.querySelector(".right");
     this.ctx = this.canvas.getContext("2d");
     this.xPos = 0;
     this.yPos = 0;
@@ -85,10 +89,26 @@ class SnakeGame {
       default:
         break;
     }
-
+    this.buttonController();
     this.checkEat(this.xPos, this.yPos);
     this.throughWalls(this.xPos, this.yPos);
     this.draw();
+  }
+
+  buttonController() {
+    this.buttonUp.addEventListener("click", () => (this.command = "ArrowUp"));
+    this.buttonDown.addEventListener(
+      "click",
+      () => (this.command = "ArrowDown")
+    );
+    this.buttonLeft.addEventListener(
+      "click",
+      () => (this.command = "ArrowLeft")
+    );
+    this.buttonRight.addEventListener(
+      "click",
+      () => (this.command = "ArrowRight")
+    );
   }
 
   draw() {
