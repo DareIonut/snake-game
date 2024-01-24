@@ -15,6 +15,8 @@ class SnakeGame {
     this.foodX = this.randomCoord();
     this.foodY = this.randomCoord();
 
+    this.intervalID;
+
     this.body = new Map();
     this.snakeHeap = 1;
 
@@ -31,7 +33,30 @@ class SnakeGame {
   setupEventListeners() {
     window.addEventListener("keydown", (e) => {
       if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-        this.command = e.key;
+        if (this.command === null) {
+          this.command = e.key;
+        } else {
+          if (
+            (this.command === "ArrowUp" &&
+              e.key === "ArrowDown" &&
+              this.snakeHeap !== 1) ||
+            (this.command === "ArrowDown" &&
+              e.key === "ArrowUp" &&
+              this.snakeHeap !== 1) ||
+            (this.command === "ArrowLeft" &&
+              e.key === "ArrowRight" &&
+              this.snakeHeap !== 1) ||
+            (this.command === "ArrowRight" &&
+              e.key === "ArrowLeft" &&
+              this.snakeHeap !== 1)
+          ) {
+            // If opposite arrow keys are pressed, return nothing
+            // console.log("Oposite");
+          } else {
+            // Update command if not opposite arrow keys
+            this.command = e.key;
+          }
+        }
       }
     });
   }
@@ -40,7 +65,7 @@ class SnakeGame {
     this.body.set("body1", { x: 150, y: 250 });
     this.xPos = this.body.get("body1").x;
     this.yPos = this.body.get("body1").y;
-    setInterval(() => this.gameLoop(), 300);
+    this.intervalID = setInterval(() => this.gameLoop(), 300);
   }
 
   gameLoop() {
@@ -84,12 +109,7 @@ class SnakeGame {
   }
 
   move(arrow) {
-    this.ctx.clearRect(
-      this.body.get(`body${this.snakeHeap}`).x,
-      this.body.get(`body${this.snakeHeap}`).y,
-      this.width,
-      this.height
-    );
+    this.ctx.clearRect(0, 0, 800, 800);
 
     for (let i = this.snakeHeap; i >= 1; i--) {
       if (i === 1) {
@@ -152,6 +172,15 @@ class SnakeGame {
         y: this.body.get(`body${this.snakeHeap - 1}`).y,
       });
     }
+    this.body.forEach((v, k) => {
+      if (k !== "body1" && x === v.x && y === v.y && this.body.size > 2) {
+        // this.command = "falied";
+        clearInterval(this.intervalID);
+        this.body.clear();
+        this.snakeHeap = 1;
+        this.start();
+      }
+    });
   }
 
   throughWalls(x, y) {
@@ -176,5 +205,19 @@ class SnakeGame {
     }
   }
 }
+
+// function sound(src) {
+//   let sound = document.createElement("audio");
+//   sound.src = "eat.mp3";
+//   sound.setAttribute("preload", "auto");
+//   sound.setAttribute("controls", "none");
+//   sound.style.display = "none";
+//   document.body.appendChild(sound);
+//   sound.play();
+// }
+
+// window.addEventListener("click", () => {
+//   sound();
+// });
 
 const snakeGame = new SnakeGame();
