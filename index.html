@@ -9,16 +9,22 @@
 
     <div class="game-container">
         <div class="menu flex"><button class="play">Play</button></div>
-        <canvas width="800px" height="800px" style="background-color:whitesmoke; border: 15px gray solid;"></canvas>
+        <canvas width="800px" height="800px" style="background-color:#3c3c3c; border: 15px rgb(43, 43, 43) solid;"></canvas>
     </div>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div class="flex button-container">
         <button class="up">up</button>
-        <div><button class="left">left</button><button class="right">right</button></div>
+        <div style="display: flex;"><button class="left">left</button><button class="right">right</button></div>
         <button class="down">down</button>
     </div>
 </body>
 <style>
-
+body{
+    background-color: #242424;
+}
+.button-container{
+    width: max-content;
+    height: max-content;
+}
     .flex{
         display: flex;
         flex-direction: column;
@@ -27,6 +33,7 @@
     }
     .game-container{
         position: relative;
+        margin-top: 3rem;
     }
     .menu{
         z-index: 3;
@@ -44,7 +51,7 @@
         padding: 1rem;
         border-radius: 50px;
         cursor: pointer;
-        background-color: rgb(31, 223, 72);
+        background-color: #4daf9e;
         border: none;
     }
     .play:hover{
@@ -52,15 +59,16 @@
 
     }
     .up, .left, .right, .down{
+        margin: 1rem;
+        font-size: 300%;
         display: block;
         color: rgb(163, 164, 164);
-        padding: 2rem ;
-        font-size: 3rem;
         color: black;
         font-weight: bold;
+        padding: 1rem;
         border-radius: 25px;
     }
-    @media screen and (min-width: 480px) {
+    @media screen and (min-width: 800px) {
     .up, .left, .right, .down{
         display: none;
     }
