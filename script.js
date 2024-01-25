@@ -5,6 +5,8 @@ class SnakeGame {
     this.buttonDown = document.querySelector(".down");
     this.buttonLeft = document.querySelector(".left");
     this.buttonRight = document.querySelector(".right");
+    this.gameMenu = document.querySelector(".menu");
+    this.buttonStart = document.querySelector(".play");
     this.ctx = this.canvas.getContext("2d");
     this.xPos = 0;
     this.yPos = 0;
@@ -35,38 +37,45 @@ class SnakeGame {
   }
 
   setupEventListeners() {
-    window.addEventListener("keydown", (e) => {
-      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-        if (this.command === null) {
-          this.command = e.key;
-        } else {
+    this.buttonStart.addEventListener("click", () => {
+      this.gameMenu.style.display = "none";
+      if (this.gameMenu.style.display === "none") {
+        window.addEventListener("keydown", (e) => {
           if (
-            (this.command === "ArrowUp" &&
-              e.key === "ArrowDown" &&
-              this.snakeHeap !== 1) ||
-            (this.command === "ArrowDown" &&
-              e.key === "ArrowUp" &&
-              this.snakeHeap !== 1) ||
-            (this.command === "ArrowLeft" &&
-              e.key === "ArrowRight" &&
-              this.snakeHeap !== 1) ||
-            (this.command === "ArrowRight" &&
-              e.key === "ArrowLeft" &&
-              this.snakeHeap !== 1)
+            ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)
           ) {
-            // If opposite arrow keys are pressed, return nothing
-            // console.log("Oposite");
-          } else {
-            // Update command if not opposite arrow keys
-            this.command = e.key;
+            if (this.command === null) {
+              this.command = e.key;
+            } else {
+              if (
+                (this.command === "ArrowUp" &&
+                  e.key === "ArrowDown" &&
+                  this.snakeHeap !== 1) ||
+                (this.command === "ArrowDown" &&
+                  e.key === "ArrowUp" &&
+                  this.snakeHeap !== 1) ||
+                (this.command === "ArrowLeft" &&
+                  e.key === "ArrowRight" &&
+                  this.snakeHeap !== 1) ||
+                (this.command === "ArrowRight" &&
+                  e.key === "ArrowLeft" &&
+                  this.snakeHeap !== 1)
+              ) {
+                // If opposite arrow keys are pressed, return nothing
+                // console.log("Oposite");
+              } else {
+                // Update command if not opposite arrow keys
+                this.command = e.key;
+              }
+            }
           }
-        }
+        });
       }
     });
   }
 
   start() {
-    this.body.set("body1", { x: 150, y: 250 });
+    this.body.set("body1", { x: 350, y: 350 });
     this.xPos = this.body.get("body1").x;
     this.yPos = this.body.get("body1").y;
     this.intervalID = setInterval(() => this.gameLoop(), 300);
@@ -93,6 +102,7 @@ class SnakeGame {
     this.checkEat(this.xPos, this.yPos);
     this.throughWalls(this.xPos, this.yPos);
     this.draw();
+    // this.playSound("move.mp3");
   }
 
   buttonController() {
@@ -184,6 +194,7 @@ class SnakeGame {
 
   checkEat(x, y) {
     if (x === this.foodX && y === this.foodY) {
+      this.playSound("eat.mp3");
       this.foodX = this.randomCoord();
       this.foodY = this.randomCoord();
       this.snakeHeap += 1;
@@ -194,10 +205,12 @@ class SnakeGame {
     }
     this.body.forEach((v, k) => {
       if (k !== "body1" && x === v.x && y === v.y && this.body.size > 2) {
-        // this.command = "falied";
+        this.playSound("game-over.mp3");
+        this.gameMenu.style.display = "flex";
         clearInterval(this.intervalID);
         this.body.clear();
         this.snakeHeap = 1;
+        this.command = null;
         this.start();
       }
     });
@@ -224,20 +237,15 @@ class SnakeGame {
       this.yPos = 0;
     }
   }
+  playSound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.sound.play();
+  }
 }
-
-// function sound(src) {
-//   let sound = document.createElement("audio");
-//   sound.src = "eat.mp3";
-//   sound.setAttribute("preload", "auto");
-//   sound.setAttribute("controls", "none");
-//   sound.style.display = "none";
-//   document.body.appendChild(sound);
-//   sound.play();
-// }
-
-// window.addEventListener("click", () => {
-//   sound();
-// });
 
 const snakeGame = new SnakeGame();

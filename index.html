@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
 </head>
-<body>
-    <canvas width="800px" height="800px" style="background-color:whitesmoke; border: 15px gray solid;"></canvas>
+<body class="flex">
+
+    <div class="game-container">
+        <div class="menu flex"><button class="play">Play</button></div>
+        <canvas width="800px" height="800px" style="background-color:whitesmoke; border: 15px gray solid;"></canvas>
+    </div>
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <button class="up">up</button>
         <div><button class="left">left</button><button class="right">right</button></div>
@@ -14,7 +18,41 @@
     </div>
 </body>
 <style>
+
+    .flex{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .game-container{
+        position: relative;
+    }
+    .menu{
+        z-index: 3;
+        position: absolute;
+        width: 830px;
+        height: 830px;
+        background-color: rgba(29, 29, 36, 0.95);
+       
+    }
+    .play{
+        position: relative;
+        font-size: 4rem;
+        font-weight: bold;
+        color: white;
+        padding: 1rem;
+        border-radius: 50px;
+        cursor: pointer;
+        background-color: rgb(31, 223, 72);
+        border: none;
+    }
+    .play:hover{
+        background-color: rgb(38, 36, 36)
+
+    }
     .up, .left, .right, .down{
+        display: block;
         color: rgb(163, 164, 164);
         padding: 2rem ;
         font-size: 3rem;
@@ -22,7 +60,12 @@
         font-weight: bold;
         border-radius: 25px;
     }
-
+    @media screen and (min-width: 480px) {
+    .up, .left, .right, .down{
+        display: none;
+    }
+  
+}
 </style>
 <script src="script.js"></script>
 
