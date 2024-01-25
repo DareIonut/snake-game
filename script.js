@@ -38,6 +38,7 @@ class SnakeGame {
 
   setupEventListeners() {
     this.buttonStart.addEventListener("click", () => {
+      this.playSound("game-start.mp3");
       this.gameMenu.style.display = "none";
       if (this.gameMenu.style.display === "none") {
         window.addEventListener("keydown", (e) => {
