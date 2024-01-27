@@ -1,81 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Snake Game</title>
-</head>
-<body class="flex">
-
+  </head>
+  <body class="flex">
+    <div
+      class="score-container"
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        color: white;
+        font-family: system-ui;
+      "
+    >
+      <h1>Score:</h1>
+      <h1 class="score-keeper" style="margin-left: 1rem; color: cadetblue">
+        0
+      </h1>
+    </div>
     <div class="game-container">
-        <div class="menu flex"><button class="play">Play</button></div>
-        <canvas width="800px" height="800px" style="background-color:#3c3c3c; border: 15px rgb(43, 43, 43) solid;"></canvas>
+      <div class="menu flex"><button class="play">Play</button></div>
+      <canvas
+        width="800px"
+        height="800px"
+        style="background-color: #3c3c3c; border: 15px rgb(43, 43, 43) solid"
+      ></canvas>
     </div>
     <div class="flex button-container">
-        <button class="up">up</button>
-        <div style="display: flex;"><button class="left">left</button><button class="right">right</button></div>
-        <button class="down">down</button>
+      <button class="up">up</button>
+      <div style="display: flex">
+        <button class="left">left</button><button class="right">right</button>
+      </div>
+      <button class="down">down</button>
     </div>
-</body>
-<style>
-body{
-    background-color: #242424;
-}
-.button-container{
-    width: max-content;
-    height: max-content;
-}
-    .flex{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+  </body>
+  <style>
+    body {
+      background-color: #242424;
     }
-    .game-container{
-        position: relative;
-        margin-top: 3rem;
+    .button-container {
+      width: max-content;
+      height: max-content;
     }
-    .menu{
-        z-index: 3;
-        position: absolute;
-        width: 830px;
-        height: 830px;
-        background-color: rgba(29, 29, 36, 0.95);
-       
+    .flex {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    .play{
-        position: relative;
-        font-size: 4rem;
-        font-weight: bold;
-        color: white;
-        padding: 1rem;
-        border-radius: 50px;
-        cursor: pointer;
-        background-color: #4daf9e;
-        border: none;
+    .game-container {
+      position: relative;
     }
-    .play:hover{
-        background-color: rgb(38, 36, 36)
-
+    .menu {
+      z-index: 3;
+      position: absolute;
+      width: 830px;
+      height: 830px;
+      background-color: rgba(29, 29, 36, 0.95);
     }
-    .up, .left, .right, .down{
-        margin: 1rem;
-        font-size: 300%;
-        display: block;
-        color: rgb(163, 164, 164);
-        color: black;
-        font-weight: bold;
-        padding: 1rem;
-        border-radius: 25px;
+    .play {
+      position: relative;
+      font-size: 4rem;
+      font-weight: bold;
+      color: white;
+      padding: 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      background-color: #4daf9e;
+      border: none;
+    }
+    .play:hover {
+      background-color: rgb(38, 36, 36);
+    }
+    .up,
+    .left,
+    .right,
+    .down {
+      margin: 1rem;
+      font-size: 300%;
+      display: block;
+      color: rgb(163, 164, 164);
+      color: black;
+      font-weight: bold;
+      padding: 1rem;
+      border-radius: 25px;
     }
     @media screen and (min-width: 800px) {
-    .up, .left, .right, .down{
+      .up,
+      .left,
+      .right,
+      .down {
         display: none;
+      }
     }
-  
-}
-</style>
-<script src="script.js"></script>
-
+  </style>
+  <script src="script.js"></script>
 </html>
-

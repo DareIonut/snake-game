@@ -7,13 +7,14 @@ class SnakeGame {
     this.buttonRight = document.querySelector(".right");
     this.gameMenu = document.querySelector(".menu");
     this.buttonStart = document.querySelector(".play");
+    this.scoreSelector = document.querySelector(".score-keeper");
     this.ctx = this.canvas.getContext("2d");
     this.xPos = 0;
     this.yPos = 0;
     this.width = 50;
     this.height = 50;
     this.command = null;
-
+    this.gameSpeed = 300;
     this.imgSnake = this.createImage("head.png");
     this.imgBody = this.createImage("body.png");
     this.imgFood = this.createImage("food.png");
@@ -22,6 +23,7 @@ class SnakeGame {
     this.foodY = this.randomCoord();
 
     this.intervalID;
+    this.score = 0;
 
     this.body = new Map();
     this.snakeHeap = 1;
@@ -79,7 +81,12 @@ class SnakeGame {
     this.body.set("body1", { x: 350, y: 350 });
     this.xPos = this.body.get("body1").x;
     this.yPos = this.body.get("body1").y;
-    this.intervalID = setInterval(() => this.gameLoop(), 300);
+    // Avoid spawning on the snake
+    if (this.foodX === this.xPos && this.foodY === this.yPos) {
+      this.foodX = this.randomCoord();
+      this.foodY = this.randomCoord();
+    }
+    this.intervalID = setInterval(() => this.gameLoop(), this.gameSpeed);
   }
 
   gameLoop() {
@@ -199,19 +206,38 @@ class SnakeGame {
       this.foodX = this.randomCoord();
       this.foodY = this.randomCoord();
       this.snakeHeap += 1;
+      this.gameSpeed -= 5;
+      this.score += 1;
+      this.scoreSelector.innerText = this.score;
+      clearInterval(this.intervalID);
+      this.intervalID = setInterval(() => this.gameLoop(), this.gameSpeed);
       this.body.set(`body${this.snakeHeap}`, {
         x: this.body.get(`body${this.snakeHeap - 1}`).x,
         y: this.body.get(`body${this.snakeHeap - 1}`).y,
       });
     }
+
+    /**
+     * @param v -> value from Map
+     * @param k -> key from Map
+     */
     this.body.forEach((v, k) => {
+      // Avoid spaming on the snake
+      if (this.foodX === v.x && this.foodY === v.y) {
+        this.foodX = this.randomCoord();
+        this.foodY = this.randomCoord();
+      }
+      //Game over
       if (k !== "body1" && x === v.x && y === v.y && this.body.size > 2) {
         this.playSound("game-over.mp3");
         this.gameMenu.style.display = "flex";
         clearInterval(this.intervalID);
         this.body.clear();
         this.snakeHeap = 1;
+        this.gameSpeed = 300;
         this.command = null;
+        this.score = 0;
+        this.scoreSelector.innerText = this.score;
         this.start();
       }
     });
@@ -239,13 +265,13 @@ class SnakeGame {
     }
   }
   playSound(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.sound.play();
+    let sound = document.createElement("audio");
+    sound.src = src;
+    sound.setAttribute("preload", "auto");
+    sound.setAttribute("controls", "none");
+    sound.style.display = "none";
+    document.body.appendChild(sound);
+    sound.play();
   }
 }
 
