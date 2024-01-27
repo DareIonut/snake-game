@@ -24,6 +24,8 @@ class SnakeGame {
     this.foodY = this.randomCoord();
     this.starX = this.randomCoord();
     this.starY = this.randomCoord();
+    this.xPosStar;
+    this.yPosStar;
 
     this.intervalID;
     this.score = 0;
@@ -147,7 +149,7 @@ class SnakeGame {
       this.width,
       this.height
     );
-    if (this.score === 3 || this.score === 5) {
+    if (this.score === 30 || this.score === 60 || this.score === 150) {
       this.ctx.drawImage(
         this.imgStar,
         this.starX,
@@ -155,6 +157,8 @@ class SnakeGame {
         this.width,
         this.height
       );
+      this.xPosStar = this.starX;
+      this.yPosStar = this.starY;
     }
   }
 
@@ -227,6 +231,23 @@ class SnakeGame {
         x: this.body.get(`body${this.snakeHeap - 1}`).x,
         y: this.body.get(`body${this.snakeHeap - 1}`).y,
       });
+    }
+    if (
+      (x === this.starX && y === this.starY && this.score === 30) ||
+      this.score === 60 ||
+      this.score === 150
+    ) {
+      this.playSound("star.mp3");
+      this.snakeHeap = 1;
+      this.gameSpeed = 300;
+      this.score += 1;
+      this.scoreSelector.innerText = this.score;
+      this.body.clear();
+      this.body.set("body1", { x: this.starX, y: this.starY });
+      this.xPos = this.body.get("body1").x;
+      this.yPos = this.body.get("body1").y;
+      clearInterval(this.intervalID);
+      this.intervalID = setInterval(() => this.gameLoop(), this.gameSpeed);
     }
 
     /**
