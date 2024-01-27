@@ -18,9 +18,12 @@ class SnakeGame {
     this.imgSnake = this.createImage("head.png");
     this.imgBody = this.createImage("body.png");
     this.imgFood = this.createImage("food.png");
+    this.imgStar = this.createImage("star.png");
 
     this.foodX = this.randomCoord();
     this.foodY = this.randomCoord();
+    this.starX = this.randomCoord();
+    this.starY = this.randomCoord();
 
     this.intervalID;
     this.score = 0;
@@ -144,6 +147,15 @@ class SnakeGame {
       this.width,
       this.height
     );
+    if (this.score === 3 || this.score === 5) {
+      this.ctx.drawImage(
+        this.imgStar,
+        this.starX,
+        this.starY,
+        this.width,
+        this.height
+      );
+    }
   }
 
   move(arrow) {
