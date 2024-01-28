@@ -15,10 +15,10 @@ class SnakeGame {
     this.height = 50;
     this.command = null;
     this.gameSpeed = 300;
-    this.imgSnake = this.createImage("head.png");
-    this.imgBody = this.createImage("body.png");
-    this.imgFood = this.createImage("food.png");
-    this.imgStar = this.createImage("star.png");
+    this.imgSnake = this.createImage("./img/head.png");
+    this.imgBody = this.createImage("./img/body.png");
+    this.imgFood = this.createImage("./img/food.png");
+    this.imgStar = this.createImage("./img/star.png");
 
     this.foodX = this.randomCoord();
     this.foodY = this.randomCoord();
@@ -45,7 +45,7 @@ class SnakeGame {
 
   setupEventListeners() {
     this.buttonStart.addEventListener("click", () => {
-      this.playSound("game-start.mp3");
+      this.playSound("./sounds/game-start.mp3");
       this.gameMenu.style.display = "none";
       if (this.gameMenu.style.display === "none") {
         window.addEventListener("keydown", (e) => {
@@ -115,7 +115,6 @@ class SnakeGame {
     this.checkEat(this.xPos, this.yPos);
     this.throughWalls(this.xPos, this.yPos);
     this.draw();
-    // this.playSound("move.mp3");
   }
 
   buttonController() {
@@ -218,7 +217,7 @@ class SnakeGame {
 
   checkEat(x, y) {
     if (x === this.foodX && y === this.foodY) {
-      this.playSound("eat.mp3");
+      this.playSound("./sounds/eat.mp3");
       this.foodX = this.randomCoord();
       this.foodY = this.randomCoord();
       this.snakeHeap += 1;
@@ -237,7 +236,7 @@ class SnakeGame {
       this.score === 60 ||
       this.score === 150
     ) {
-      this.playSound("star.mp3");
+      this.playSound("./sounds/star.mp3");
       this.snakeHeap = 1;
       this.gameSpeed = 300;
       this.score += 1;
@@ -262,7 +261,7 @@ class SnakeGame {
       }
       //Game over
       if (k !== "body1" && x === v.x && y === v.y && this.body.size > 2) {
-        this.playSound("game-over.mp3");
+        this.playSound("./sounds/game-over.mp3");
         this.gameMenu.style.display = "flex";
         clearInterval(this.intervalID);
         this.body.clear();
